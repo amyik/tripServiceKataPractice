@@ -24,6 +24,7 @@ public class TripServiceTest {
 
 	@Before
 	public void init() {
+		loggedInUser = REGISTERED_USER;
 		tripService = new TestableTripService();
 	}
 
@@ -37,7 +38,6 @@ public class TripServiceTest {
 	@Test public void 
 	showld_not_return_any_trips_when_they_are_not_friedns() throws Exception {
 		
-		loggedInUser = REGISTERED_USER;
 		
 		User friend = new User();
 		friend.addFriend(ANOTHER_USER);
@@ -50,8 +50,6 @@ public class TripServiceTest {
 	@Test public void
 	sholud_return_frineds_trips_when_they_are_frineds() throws Exception {
 		
-		loggedInUser = REGISTERED_USER;
-		
 		User friend = new User();
 		friend.addFriend(ANOTHER_USER);
 		friend.addFriend(loggedInUser);
@@ -62,38 +60,6 @@ public class TripServiceTest {
 		assertThat(tripsByUser.size(), is(2));
 	}
 	
-//	
-//	@Test public void 
-//	sholud_not_return_exception_when_loggedInUser_is_not_null() throws Exception {
-//		
-//		List<Trip> tripsByUser = tripService.getTripsByUser(FRIEND);
-//		assertThat(tripsByUser, is(notNullValue()));
-//	}
-//	
-//	@Test public void 
-//	sholud_return_empty_tripList_when_they_are_not_frineds() throws Exception {
-//		
-//		assertThat(ANOTHER_USER.getFriends().contains(LOGGED_IN_USER), is(false));
-//		List<Trip> tripsByUser = tripService.getTripsByUser(ANOTHER_USER);
-//		assertThat(tripsByUser.isEmpty(), is(Boolean.valueOf(true)));
-//	}
-//	
-//	@Test public void 
-//	sholud_return_empty_tripList_when_frined_has_not_trips() throws Exception {
-//		
-//		assertThat(FRIEND_NOTRIPS.getFriends().contains(LOGGED_IN_USER), is(true));
-//		List<Trip> tripsByUser = tripService.getTripsByUser(FRIEND_NOTRIPS);
-//		assertThat(tripsByUser.isEmpty(), is(Boolean.valueOf(true)));
-//	}
-//	
-//	@Test public void 
-//	should_return_tripList_when_they_are_frineds() throws Exception {
-//		
-//		assertThat(FRIEND_NOTRIPS.getFriends().contains(LOGGED_IN_USER), is(true));
-//		List<Trip> tripsByUser = tripService.getTripsByUser(FRIEND);
-//		assertThat(tripsByUser.size(), is(2));
-//	}
-//	
 	public class TestableTripService extends TripService {
 
 		@Override
