@@ -6,33 +6,33 @@ import java.util.List;
 import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
 import org.craftedsw.tripservicekata.user.User;
 import org.craftedsw.tripservicekata.user.UserSession;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class TripService {
+	
+	@Autowired private TripDAO tripDAO;
 
-	public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
+	public List<Trip> getFriendTrips(User friend, User loggedInUser) throws UserNotLoggedInException {
 		
-		if(getLoggedInUser() == null){
+		validate(loggedInUser);
+
+		return friend.isFriendWith(loggedInUser) 
+				? tripsBy(friend)
+				: noTrips();
+	}
+
+	public void validate(User loggedInUser) {
+		if(loggedInUser == null){
 			throw new UserNotLoggedInException();
 		}
-
-		return user.isFriendWith(getLoggedInUser()) 
-				? tripsBy(user)
-				: noTrips();
 	}
 
 	public ArrayList<Trip> noTrips() {
 		return new ArrayList<Trip>();
 	}
 
-	protected List<Trip> tripsBy(User user) {
-		List<Trip> tripList;
-		tripList = TripDAO.findTripsByUser(user);
-		return tripList;
-	}
-
-	protected User getLoggedInUser() { // seam(연결점)을 만든다. seam : 클래스들이 이어지는/분리되는 지점
-		User loggedUser = UserSession.getInstance().getLoggedUser();
-		return loggedUser;
+	private List<Trip> tripsBy(User user) {
+		return tripDAO.tripsByUser(user);
 	}
 	
 }
