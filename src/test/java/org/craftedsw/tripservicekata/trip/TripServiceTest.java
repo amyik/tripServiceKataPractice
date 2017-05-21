@@ -1,7 +1,8 @@
 package org.craftedsw.tripservicekata.trip;
 
+import static org.craftedsw.tripservicekata.trip.UserBuilder.aUser;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
@@ -38,10 +39,10 @@ public class TripServiceTest {
 	@Test public void 
 	showld_not_return_any_trips_when_they_are_not_friedns() throws Exception {
 		
-		
-		User friend = new User();
-		friend.addFriend(ANOTHER_USER);
-		friend.addTrip(TO_BRAZIL);
+		User friend = aUser()
+							.friendWith(ANOTHER_USER)
+							.withTrips(TO_BRAZIL)
+							.build();
 		
 		List<Trip> tripsByUser = tripService.getTripsByUser(friend);
 		assertThat(tripsByUser.size(), is(0));
@@ -50,11 +51,10 @@ public class TripServiceTest {
 	@Test public void
 	sholud_return_frineds_trips_when_they_are_frineds() throws Exception {
 		
-		User friend = new User();
-		friend.addFriend(ANOTHER_USER);
-		friend.addFriend(loggedInUser);
-		friend.addTrip(TO_BRAZIL);
-		friend.addTrip(TO_LONDON);
+		User friend = aUser()
+							.friendWith(ANOTHER_USER, loggedInUser)
+							.withTrips(TO_BRAZIL, TO_LONDON)
+							.build();
 		
 		List<Trip> tripsByUser = tripService.getTripsByUser(friend);
 		assertThat(tripsByUser.size(), is(2));
