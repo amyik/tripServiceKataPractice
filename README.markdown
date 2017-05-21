@@ -1,3 +1,13 @@
+
+#### kata Homework
+
+
+
+
+
+
+original readme
+
 Testing legacy code: Hard-wired dependencies
 ============================================
 
